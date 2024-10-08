@@ -40,7 +40,7 @@
         const url = document.getElementById('searchbox').value;
 
         // 入力されたURLをプロキシ経由で取得
-        const proxyUrl = `/proxy/?url=${encodeURIComponent(url)}`;
+        const proxyUrl = `https://proxy-to-pokemogukunn.onrender.com/proxy/?url=${encodeURIComponent(url)}`;
         
         try {
             const response = await fetch(proxyUrl);
