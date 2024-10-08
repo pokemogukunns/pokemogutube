@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML取得ツール</title>
+    <link rel="stylesheet" href="https://purecss.io/pure.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sbox"> 
+    <div class="pure-u-1-4"></div>
+    <div class="pure-u-1 pure-u-md-12-24 searchbar">
+        <form class="pure-form" id="urlForm" action="javascript:void(0);">
+            <fieldset>
+                <input type="search" id="searchbox" autocomplete="on" autocorrect="on" autocapitalize="none" spellcheck="false" autofocus name="q" placeholder="URLを入力" title="URLを入力" required>
+                <button type="submit">取得</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="result" id="resultContainer"></div>
+
+<script>
+    document.getElementById('urlForm').addEventListener('submit', async function() {
+        const url = document.getElementById('searchbox').value;
+
+        // 入力されたURLをプロキシ経由で取得
+        const proxyUrl = `/proxy/?url=${encodeURIComponent(url)}`;
+        
+        try {
+            const response = await fetch(proxyUrl);
+            if (!response.ok) {
+                throw new Error('ネットワークエラー');
+            }
+            const html = await response.text();
+            document.getElementById('resultContainer').innerText = html; // HTMLを表示
+        } catch (error) {
+            document.getElementById('resultContainer').innerText = `エラー: ${error.message}`;
+        }
+    });
+</script>
+
+</body>
+</html>
